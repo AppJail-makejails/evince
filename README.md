@@ -125,6 +125,7 @@ $ x11appjail run evince --help
 | `<appname>:<profile>.jail.ephemeral` | Mark the jail as ephemeral. See `ephemeral` option in `appjail-quick(1)` for details.<br><br>Although the jail may be destroyed, its data is preserved in the user directory (see `${X11APPJAIL_USERDIR}` in `x11appjail-spec(5)`).<br>|
 | `<appname>:<profile>.dbus-user.ignore.broadcast.portal` | If this attribute exists, `org.freedesktop.portal.*=@/org/freedesktop/portal/*` will not be applied in the `broadcast` policy.|
 | `<appname>:<profile>.dbus-user.ignore.call.portal` | If this attribute exists, `org.freedesktop.portal.*=*` will not be applied in the `call` policy.|
+| `<appname>:<profile>.dbus-user.ignore.talk.dconf` | If this attribute exists, `ca.desrt.dconf` will not be applied in the `talk` policy.|
 
 #### System Attributes
 
