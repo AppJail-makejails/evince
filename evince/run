@@ -3,6 +3,12 @@
 set -o pipefail
 
 JEXEC="${X11APPJAIL_BASEDIR}/usr/local/libexec/appjail/jexec/jexec"
+__run_program="evince"
+__perms_enable_3d=false
+__perms_enable_webcam=false
+__perms_enable_usb=false
+__perms_enable_sound=false
+__dbus_stop=true
 
 . "${X11APPJAIL_WORKDIR}/appjail.d/lib.subr"
 . "${X11APPJAIL_WORKDIR}/appjail.d/dbus.subr"
@@ -244,26 +250,18 @@ if [ "${__dbus_session_mode}" != "none" ]; then
 fi
 
 if ${OPT_NEW_WINDOW}; then
-    exec "${JEXEC}" -l \
-        -U noroot \
-        -e DISPLAY="${X11APPJAIL_DISPLAY}" \
-        -e DBUS_SYSTEM_BUS_ADDRESS="unix:path=/var/run/dbus/system_bus_socket" \
-        -e DBUS_SESSION_BUS_ADDRESS="unix:path=/var/run/dbus-session/session_bus_socket" \
-        "${X11APPJAIL_JAIL}" \
-        evince --new-window
+    set -- --new-window
+
+    . "${X11APPJAIL_WORKDIR}/appjail.d/run.subr"
+
     exit $?
 fi
 
 FILE="$1"
 
 if [ -z "${FILE}" ]; then
-    exec "${JEXEC}" -l \
-        -U noroot \
-        -e DISPLAY="${X11APPJAIL_DISPLAY}" \
-        -e DBUS_SYSTEM_BUS_ADDRESS="unix:path=/var/run/dbus/system_bus_socket" \
-        -e DBUS_SESSION_BUS_ADDRESS="unix:path=/var/run/dbus-session/session_bus_socket" \
-        "${X11APPJAIL_JAIL}" \
-        evince
+    . "${X11APPJAIL_WORKDIR}/appjail.d/run.subr"
+
     exit $?
 fi
 
@@ -354,10 +352,4 @@ fi
 
 set -- "$@" -- "${OUTPUT}"
 
-exec "${JEXEC}" -l \
-    -U noroot \
-    -e DISPLAY="${X11APPJAIL_DISPLAY}" \
-    -e DBUS_SYSTEM_BUS_ADDRESS="unix:path=/var/run/dbus/system_bus_socket" \
-    -e DBUS_SESSION_BUS_ADDRESS="unix:path=/var/run/dbus-session/session_bus_socket" \
-    "${X11APPJAIL_JAIL}" \
-    evince "$@"
+. "${X11APPJAIL_WORKDIR}/appjail.d/run.subr"
