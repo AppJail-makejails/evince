@@ -239,16 +239,6 @@ while [ $# -gt 0 ]; do
     shift
 done
 
-if [ "${__dbus_system_mode}" != "none" ]; then
-    start_dbus "dbus-system" "${__dbus_system_mode}" "${__dbus_system_pidfile}" "${X11APPJAIL_DBUS_SYSTEM_BUS_ADDRESS}" \
-        "${__dbus_system_sock}"
-fi
-
-if [ "${__dbus_session_mode}" != "none" ]; then
-    start_dbus "dbus-user" "${__dbus_session_mode}" "${__dbus_session_pidfile}" "${X11APPJAIL_DBUS_SESSION_BUS_ADDRESS}" \
-        "${__dbus_session_sock}"
-fi
-
 if ${OPT_NEW_WINDOW}; then
     set -- --new-window
 
